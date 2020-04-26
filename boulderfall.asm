@@ -11,7 +11,7 @@
 	.byte	$00
 	.byte	$00
 	.byte	$00
-	.byte	$00, $00, $00, $00, $00
+	.byte	$00, $00, $00, $00
 
 .segment "ZEROPAGE"
 ;state variables
@@ -22,7 +22,6 @@ player_y:	.res	1
 buttons:	.res	1
 playerspeedx:	.res	1
 player_facing:	.res	1
-boulder_data:	.res	20
 
 RIGHTWALL	= $f4
 LEFTWALL	= $04
@@ -111,6 +110,14 @@ loadbackground:
 
 
 ;initial values 
+	ldx	#$00
+sprite_loop:
+	lda	sprites, x
+	sta	$0204, x
+	inx
+	cpx	#$14
+	bne	sprite_loop
+
 	;player location
 	lda	#$cf
 	sta	player_y
@@ -174,6 +181,7 @@ ReadControllerLoop:
 
 UpdateObjects:
 	;figure out input and update player
+	
 checkleft:
 	lda	#$02	;bit mask for left
 	eor	buttons
@@ -200,6 +208,21 @@ checkright:
 	sta	player_facing
 donecheckright:
 
+move_boulders:
+	;start of boulder sprites
+	ldx	#$00
+@loop:
+	lda	$0204, x
+	clc
+	adc	#$02
+	sta	$0204, x
+	inx
+	inx
+	inx
+	inx
+	cpx 	#$14
+	bne	@loop
+
 	rts
 
 UpdateSprites:
@@ -222,6 +245,7 @@ facedone:
 
 	lda	player_x
 	sta	$0203
+
 	rts
 
 palette:
@@ -229,7 +253,11 @@ palette:
 	.incbin "boulderfall.pal"
 
 sprites:
-	.byte	$80, $01, $00, $80
+	.byte	$05, $01, $00, $20
+	.byte	$05, $01, $00, $40
+	.byte	$05, $01, $00, $60
+	.byte	$05, $01, $00, $80
+	.byte	$05, $01, $00, $a0
 
 background:
 	.incbin "boulderfall.nam"
