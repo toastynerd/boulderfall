@@ -23,4 +23,7 @@
 ;input.asm
 .global		read_input
 
+;random.asm
+.global		set_seed, gen_number
+
 .endif

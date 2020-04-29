@@ -27,15 +27,12 @@
 	sta	boulders_num
 	ldx	#$00
 @loop:
-	txa
-	asl
-	asl
-	asl
-	asl
+	jsr	gen_number
 	sta	boulders_x, x
-	lda 	#$10
+	lda	#$10
 	sta	boulders_y, x
-	lda	#$01
+	jsr	gen_number
+	and	#%00000011
 	sta	boulders_speed, x
 	inx
 	cpx	boulders_num
@@ -48,14 +45,25 @@
 ;the "logic" code for the boulders
 ;~once per frame
 	ldx	#00
-@loop:
+update_loop:
 	lda	boulders_y, x
 	clc
 	adc	boulders_speed, x
 	sta	boulders_y, x
+	sec
+	cmp	#BOTWALL	;if the boulder has hit the bottom 
+	bcc	update_done	;give it new speed and x location
+	clv
+	jsr	gen_number
+	sta	boulders_x, x
+;TODO DRY out this code
+	jsr	gen_number
+	and	#%00000011
+	sta	boulders_speed, x
+update_done:
 	inx
 	cpx	boulders_num
-	bne	@loop
+	bne	update_loop
 	rts
 .endproc
 

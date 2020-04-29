@@ -1,5 +1,5 @@
 title	:=	boulderfall
-objs 	:=	init nrom main background player boulders ppu_clear input
+objs 	:=	init nrom main background player boulders ppu_clear input random
 srcdir	:=	src
 out 	:=	boulderfall.nes
 

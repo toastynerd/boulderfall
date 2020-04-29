@@ -20,6 +20,11 @@ new_keys:	.res	1
 .endproc
 
 .proc main
+	ldx	#$55
+	ldy	#$00
+	jsr	set_seed
+
+
 	jsr	load_palette
 
 	jsr	draw_bg

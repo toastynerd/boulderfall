@@ -6,24 +6,27 @@ nrom.o:
     INESHDR           Offs=000000  Size=000008  Align=00001  Fill=0000
     VECTORS           Offs=000000  Size=000004  Align=00001  Fill=0000
 main.o:
-    CODE              Offs=000053  Size=000068  Align=00001  Fill=0000
+    CODE              Offs=000053  Size=00006F  Align=00001  Fill=0000
     RODATA            Offs=000000  Size=000020  Align=00001  Fill=0000
     ZEROPAGE          Offs=000000  Size=000004  Align=00001  Fill=0000
     CHR               Offs=000000  Size=002000  Align=00001  Fill=0000
 background.o:
-    CODE              Offs=0000BB  Size=000029  Align=00001  Fill=0000
+    CODE              Offs=0000C2  Size=000029  Align=00001  Fill=0000
     RODATA            Offs=000020  Size=000400  Align=00001  Fill=0000
     ZEROPAGE          Offs=000004  Size=000002  Align=00001  Fill=0000
 player.o:
-    CODE              Offs=0000E4  Size=000034  Align=00001  Fill=0000
+    CODE              Offs=0000EB  Size=000034  Align=00001  Fill=0000
     ZEROPAGE          Offs=000006  Size=000004  Align=00001  Fill=0000
 boulders.o:
-    CODE              Offs=000118  Size=000050  Align=00001  Fill=0000
+    CODE              Offs=00011F  Size=000065  Align=00001  Fill=0000
     ZEROPAGE          Offs=00000A  Size=000021  Align=00001  Fill=0000
 ppu_clear.o:
-    CODE              Offs=000168  Size=000024  Align=00001  Fill=0000
+    CODE              Offs=000184  Size=000024  Align=00001  Fill=0000
 input.o:
-    CODE              Offs=00018C  Size=000001  Align=00001  Fill=0000
+    CODE              Offs=0001A8  Size=000001  Align=00001  Fill=0000
+random.o:
+    CODE              Offs=0001A9  Size=00001A  Align=00001  Fill=0000
+    ZEROPAGE          Offs=00002B  Size=000002  Align=00001  Fill=0000
 
 
 Segment list:
@@ -32,21 +35,22 @@ Name                   Start     End    Size  Align
 ----------------------------------------------------
 CHR                   000000  001FFF  002000  00001
 INESHDR               000000  000007  000008  00001
-ZEROPAGE              000010  00003A  00002B  00001
-CODE                  00C000  00C18C  00018D  00001
+ZEROPAGE              000010  00003C  00002D  00001
+CODE                  00C000  00C1C2  0001C3  00001
 RODATA                00C200  00C61F  000420  00001
 VECTORS               00FFFA  00FFFD  000004  00001
 
 
 Exports list by name:
 ---------------------
-draw_bg                   00C0BB RLA    draw_boulders             00C142 RLA    
-draw_player               00C0F6 RLA    handle_nmi                00C053 RLA    
-handle_reset              00C000 RLA    init_boulders             00C118 RLA    
-init_player               00C0E4 RLA    main                      00C056 RLA    
-oam_used                  000011 RLZ    ppu_clear_oam             00C169 RLA    
-ppu_screen_on             00C179 RLA    read_input                00C18C RLA    
-update_boulders           00C133 RLA    update_player             00C0F5 RLA    
+draw_bg                   00C0C2 RLA    draw_boulders             00C15E RLA    
+draw_player               00C0FD RLA    gen_number                00C1B0 RLA    
+handle_nmi                00C053 RLA    handle_reset              00C000 RLA    
+init_boulders             00C11F RLA    init_player               00C0EB RLA    
+main                      00C056 RLA    oam_used                  000011 RLZ    
+ppu_clear_oam             00C185 RLA    ppu_screen_on             00C195 RLA    
+read_input                00C1A8 RLA    set_seed                  00C1A9 RLA    
+update_boulders           00C13D RLA    update_player             00C0FC RLA    
 
 
 
@@ -54,11 +58,12 @@ Exports list by value:
 ----------------------
 oam_used                  000011 RLZ    handle_reset              00C000 RLA    
 handle_nmi                00C053 RLA    main                      00C056 RLA    
-draw_bg                   00C0BB RLA    init_player               00C0E4 RLA    
-update_player             00C0F5 RLA    draw_player               00C0F6 RLA    
-init_boulders             00C118 RLA    update_boulders           00C133 RLA    
-draw_boulders             00C142 RLA    ppu_clear_oam             00C169 RLA    
-ppu_screen_on             00C179 RLA    read_input                00C18C RLA    
+draw_bg                   00C0C2 RLA    init_player               00C0EB RLA    
+update_player             00C0FC RLA    draw_player               00C0FD RLA    
+init_boulders             00C11F RLA    update_boulders           00C13D RLA    
+draw_boulders             00C15E RLA    ppu_clear_oam             00C185 RLA    
+ppu_screen_on             00C195 RLA    read_input                00C1A8 RLA    
+set_seed                  00C1A9 RLA    gen_number                00C1B0 RLA    
 
 
 
@@ -70,6 +75,8 @@ draw_boulders (boulders.o):
     main.o                    src/global.inc(18)
 draw_player (player.o):
     main.o                    src/global.inc(15)
+gen_number (random.o):
+    boulders.o                src/global.inc(27)
 handle_nmi (main.o):
     nrom.o                    src/nrom.asm(4)
 handle_reset (init.o):
@@ -85,11 +92,13 @@ oam_used (main.o):
     player.o                  src/global.inc(9)
 ppu_clear_oam (ppu_clear.o):
     main.o                    src/global.inc(21)
-    init.o                    src/global.inc(22)
+    init.o                    src/global.inc(21)
 ppu_screen_on (ppu_clear.o):
     main.o                    src/global.inc(21)
 read_input (input.o):
     main.o                    src/global.inc(24)
+set_seed (random.o):
+    main.o                    src/global.inc(27)
 update_boulders (boulders.o):
     main.o                    src/global.inc(18)
 update_player (player.o):
