@@ -1,0 +1,7 @@
+.ifndef	DEFS_INC
+.define DEFS_INC 1
+RIGHTWALL	= $f4
+LEFTWALL	= $04
+FACINGLEFT	= $00
+FACINGRIGHT	= $01
+.endif

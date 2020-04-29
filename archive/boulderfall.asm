@@ -1,6 +1,7 @@
 ;boulderfall, single screen game, woo!
 ;toastynerd
 
+
 .segment "HEADER"
 	.byte	"NES"
 	.byte	$1a
