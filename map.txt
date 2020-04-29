@@ -6,23 +6,24 @@ nrom.o:
     INESHDR           Offs=000000  Size=000008  Align=00001  Fill=0000
     VECTORS           Offs=000000  Size=000004  Align=00001  Fill=0000
 main.o:
-    CODE              Offs=000053  Size=00005B  Align=00001  Fill=0000
+    CODE              Offs=000053  Size=000068  Align=00001  Fill=0000
     RODATA            Offs=000000  Size=000020  Align=00001  Fill=0000
     ZEROPAGE          Offs=000000  Size=000004  Align=00001  Fill=0000
     CHR               Offs=000000  Size=002000  Align=00001  Fill=0000
 background.o:
-    CODE              Offs=0000AE  Size=000029  Align=00001  Fill=0000
+    CODE              Offs=0000BB  Size=000029  Align=00001  Fill=0000
     RODATA            Offs=000020  Size=000400  Align=00001  Fill=0000
     ZEROPAGE          Offs=000004  Size=000002  Align=00001  Fill=0000
 player.o:
-    CODE              Offs=0000D7  Size=000013  Align=00001  Fill=0000
+    CODE              Offs=0000E4  Size=000034  Align=00001  Fill=0000
     ZEROPAGE          Offs=000006  Size=000004  Align=00001  Fill=0000
 boulders.o:
-    CODE              Offs=0000EA  Size=000003  Align=00001  Fill=0000
+    CODE              Offs=000118  Size=000050  Align=00001  Fill=0000
+    ZEROPAGE          Offs=00000A  Size=000021  Align=00001  Fill=0000
 ppu_clear.o:
-    CODE              Offs=0000ED  Size=000024  Align=00001  Fill=0000
+    CODE              Offs=000168  Size=000024  Align=00001  Fill=0000
 input.o:
-    CODE              Offs=000111  Size=000001  Align=00001  Fill=0000
+    CODE              Offs=00018C  Size=000001  Align=00001  Fill=0000
 
 
 Segment list:
@@ -31,55 +32,66 @@ Name                   Start     End    Size  Align
 ----------------------------------------------------
 CHR                   000000  001FFF  002000  00001
 INESHDR               000000  000007  000008  00001
-ZEROPAGE              000010  000019  00000A  00001
-CODE                  00C000  00C111  000112  00001
+ZEROPAGE              000010  00003A  00002B  00001
+CODE                  00C000  00C18C  00018D  00001
 RODATA                00C200  00C61F  000420  00001
 VECTORS               00FFFA  00FFFD  000004  00001
 
 
 Exports list by name:
 ---------------------
-OAM                       000200 REA    draw_bg                   00C0AE RLA    
-handle_nmi                00C053 RLA    handle_reset              00C000 RLA    
-init_player               00C0D7 RLA    main                      00C056 RLA    
-ppu_clear_oam             00C0EE RLA    ppu_screen_on             00C0FE RLA    
-read_input                00C111 RLA    update_boulders           00C0EB RLA    
-update_player             00C0E8 RLA    
+draw_bg                   00C0BB RLA    draw_boulders             00C142 RLA    
+draw_player               00C0F6 RLA    handle_nmi                00C053 RLA    
+handle_reset              00C000 RLA    init_boulders             00C118 RLA    
+init_player               00C0E4 RLA    main                      00C056 RLA    
+oam_used                  000011 RLZ    ppu_clear_oam             00C169 RLA    
+ppu_screen_on             00C179 RLA    read_input                00C18C RLA    
+update_boulders           00C133 RLA    update_player             00C0F5 RLA    
+
 
 
 Exports list by value:
 ----------------------
-OAM                       000200 REA    handle_reset              00C000 RLA    
+oam_used                  000011 RLZ    handle_reset              00C000 RLA    
 handle_nmi                00C053 RLA    main                      00C056 RLA    
-draw_bg                   00C0AE RLA    init_player               00C0D7 RLA    
-update_player             00C0E8 RLA    update_boulders           00C0EB RLA    
-ppu_clear_oam             00C0EE RLA    ppu_screen_on             00C0FE RLA    
-read_input                00C111 RLA    
+draw_bg                   00C0BB RLA    init_player               00C0E4 RLA    
+update_player             00C0F5 RLA    draw_player               00C0F6 RLA    
+init_boulders             00C118 RLA    update_boulders           00C133 RLA    
+draw_boulders             00C142 RLA    ppu_clear_oam             00C169 RLA    
+ppu_screen_on             00C179 RLA    read_input                00C18C RLA    
+
 
 
 Imports list:
 -------------
-OAM (main.o):
-    ppu_clear.o               src/global.inc(9)
 draw_bg (background.o):
-    main.o                    src/global.inc(13)
+    main.o                    src/global.inc(12)
+draw_boulders (boulders.o):
+    main.o                    src/global.inc(18)
+draw_player (player.o):
+    main.o                    src/global.inc(15)
 handle_nmi (main.o):
     nrom.o                    src/nrom.asm(4)
 handle_reset (init.o):
     nrom.o                    src/nrom.asm(4)
+init_boulders (boulders.o):
+    main.o                    src/global.inc(18)
 init_player (player.o):
-    main.o                    src/global.inc(16)
+    main.o                    src/global.inc(15)
 main (main.o):
     init.o                    src/global.inc(8)
+oam_used (main.o):
+    boulders.o                src/global.inc(9)
+    player.o                  src/global.inc(9)
 ppu_clear_oam (ppu_clear.o):
-    main.o                    src/global.inc(22)
+    main.o                    src/global.inc(21)
     init.o                    src/global.inc(22)
 ppu_screen_on (ppu_clear.o):
-    main.o                    src/global.inc(22)
+    main.o                    src/global.inc(21)
 read_input (input.o):
-    main.o                    src/global.inc(25)
+    main.o                    src/global.inc(24)
 update_boulders (boulders.o):
-    main.o                    src/global.inc(19)
+    main.o                    src/global.inc(18)
 update_player (player.o):
-    main.o                    src/global.inc(16)
+    main.o                    src/global.inc(15)
 

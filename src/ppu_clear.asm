@@ -8,6 +8,7 @@
 
 .include "nes.inc"
 .include "global.inc"
+.include "defs.inc"
 
 .segment "ZEROPAGE"
 

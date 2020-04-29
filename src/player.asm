@@ -10,6 +10,7 @@
 .include "global.inc"
 .include "defs.inc"
 
+
 .segment "ZEROPAGE"
 player_x:	.res	1
 player_y:	.res	1
@@ -38,5 +39,25 @@ player_facing:	.res	1
 
 .proc draw_player
 ;draw the player to the ppu
+	lda	player_y
+	sta	OAM
+
+	lda	#$00
+	sta	OAM + 1
+
+	ldx	player_facing
+	cpx	#FACINGLEFT
+	lda	#$02
+	bne	@faceright
+	jmp	@facedone
+@faceright:
+	lda	#%01000010
+@facedone:
+	sta	OAM + 2
+
+	lda	player_x
+	sta	OAM + 3
+	inc	oam_used
+
 	rts
 .endproc

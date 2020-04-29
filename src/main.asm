@@ -4,8 +4,8 @@
 
 .include "nes.inc"
 .include "global.inc"
+.include "defs.inc"
 
-OAM = $0200
 .segment "ZEROPAGE"
 nmis:		.res	1
 oam_used:	.res	1
@@ -25,6 +25,9 @@ new_keys:	.res	1
 	jsr	draw_bg
 
 	jsr	init_player
+
+	jsr	init_boulders
+
 	lda	#VBLANK_NMI
 	sta	PPUCTRL
 
@@ -32,18 +35,25 @@ game_loop:
 	jsr	read_input
 	jsr	update_player
 	jsr	update_boulders
+	lda	#$00
+	sta	oam_used
 
-	ldx	#$00
-	stx	oam_used
+	jsr	draw_player
+	jsr	draw_boulders
 
 	ldx	oam_used
-
 	jsr	ppu_clear_oam
+
 
 	lda	nmis
 vblank:
 	cmp	nmis
 	beq	vblank
+
+	lda	#$00
+	sta	nmis
+
+
 
 	lda	#$00
 	sta	OAMADDR

@@ -6,7 +6,6 @@
 
 ;main.asm
 .global		main, handle_nmi
-.global		OAM
 .globalzp	oam_used, cur_keys, new_keys
 
 ;background.asm
