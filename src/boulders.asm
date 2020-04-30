@@ -10,28 +10,31 @@
 .include "nes.inc"
 .include "global.inc"
 .include "defs.inc"
-
 .segment "ZEROPAGE"
-	boulders_x:		.res	10
-	boulders_y:		.res	10
-	boulders_speed:		.res	10
+	boulders_x:		.res	20
+	boulders_y:		.res	20
+	boulders_speed:		.res	20
 	boulders_num:		.res	1
 	pointer_low:		.res	1
 	pointer_high:		.res	1
+	temp:			.res	1
 	
 .segment "CODE"
 
 .proc init_boulders
 ;set initial values of boulders
-	lda	#$0a
+	lda	#$10
 	sta	boulders_num
 	ldx	#$00
 @loop:
 	jsr	gen_number
 	sta	boulders_x, x
-	lda	#$10
+	jsr	gen_number
+	and	#%00001111
 	sta	boulders_y, x
 	jsr	gen_number
+	sec
+	rol
 	and	#%00000011
 	sta	boulders_speed, x
 	inx
@@ -53,11 +56,17 @@ update_loop:
 	sec
 	cmp	#BOTWALL	;if the boulder has hit the bottom 
 	bcc	update_done	;give it new speed and x location
-	clv
+
+newvalues:
+	jsr	gen_number
+	and	#%00000011
+	sta	boulders_y, x
 	jsr	gen_number
 	sta	boulders_x, x
 ;TODO DRY out this code
 	jsr	gen_number
+	sec
+	rol
 	and	#%00000011
 	sta	boulders_speed, x
 update_done:
@@ -93,3 +102,62 @@ update_done:
 	
 	rts
 .endproc
+
+.proc check_collisions
+	ldx	#$00
+cloop:
+	lda	boulders_y, x	;BY1 >= PY0
+	clc
+	adc	#$08
+	cmp	player_y
+	bcc	nocollision	;check fails, no collision
+
+	sta	temp		;move BY1 in to temp
+	lda	player_y
+	clc
+	adc	#$08
+	cmp	temp		;BY1 < PY1 or PY1 >= BY1
+	bcs	nocollision
+
+	;boulder collides, directly overlapping player
+	lda	boulders_x, x	;BX0 == PX0
+	cmp	player_x
+	beq	collision	;if true, collision
+
+	;boulder collides with left side of player
+	lda	player_x
+	cmp	boulders_x, x
+	bcc	:+
+
+	lda	boulders_x, x
+	clc
+	adc	#$08
+	cmp	player_x
+	bcs	collision
+
+:	;split between x conditions
+
+	;boulder collids with right side of player
+	lda	boulders_x, x
+	cmp	player_x
+	bcc	nocollision
+
+	lda	player_x
+	clc
+	adc	#$08
+	cmp	boulders_x, x
+	bcs	collision
+	
+nocollision:
+	inx
+	cpx	boulders_num
+	bne	cloop
+	rts
+
+collision:
+	lda	#STATEDONE
+	sta	game_state
+	rts
+
+.endproc
+

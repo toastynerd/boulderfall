@@ -11,7 +11,7 @@ clean:
 	rm -f $(objlist) rom/$(out)
 
 cartridge: boulderfall.nes
-	inlretro -c nes -m nrom -x 32 -y 8 -p boulderfall.nes
+	inlretro -c nes -m nrom -x 16 -y 8 -p rom/boulderfall.nes
 
 .PHONY: all clean
 

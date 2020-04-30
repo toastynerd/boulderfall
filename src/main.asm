@@ -11,6 +11,7 @@ nmis:		.res	1
 oam_used:	.res	1
 cur_keys:	.res	1
 new_keys:	.res	1
+game_state:	.res	1
 
 .segment "CODE"
 
@@ -38,8 +39,16 @@ new_keys:	.res	1
 
 game_loop:
 	jsr	read_input
+	jsr	check_collisions
+
+	lda	game_state
+	cmp	#STATEPLAYING	
+	bne	not_playing
+
 	jsr	update_player
 	jsr	update_boulders
+not_playing:
+
 	lda	#$00
 	sta	oam_used
 

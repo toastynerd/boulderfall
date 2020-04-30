@@ -1,32 +1,32 @@
 Modules list:
 -------------
 init.o:
-    CODE              Offs=000000  Size=000053  Align=00001  Fill=0000
+    CODE              Offs=000000  Size=000057  Align=00001  Fill=0000
 nrom.o:
     INESHDR           Offs=000000  Size=000008  Align=00001  Fill=0000
     VECTORS           Offs=000000  Size=000004  Align=00001  Fill=0000
 main.o:
-    CODE              Offs=000053  Size=00006F  Align=00001  Fill=0000
+    CODE              Offs=000057  Size=000078  Align=00001  Fill=0000
     RODATA            Offs=000000  Size=000020  Align=00001  Fill=0000
-    ZEROPAGE          Offs=000000  Size=000004  Align=00001  Fill=0000
+    ZEROPAGE          Offs=000000  Size=000005  Align=00001  Fill=0000
     CHR               Offs=000000  Size=002000  Align=00001  Fill=0000
 background.o:
-    CODE              Offs=0000C2  Size=000029  Align=00001  Fill=0000
+    CODE              Offs=0000CF  Size=000029  Align=00001  Fill=0000
     RODATA            Offs=000020  Size=000400  Align=00001  Fill=0000
-    ZEROPAGE          Offs=000004  Size=000002  Align=00001  Fill=0000
+    ZEROPAGE          Offs=000005  Size=000002  Align=00001  Fill=0000
 player.o:
-    CODE              Offs=0000EB  Size=000034  Align=00001  Fill=0000
-    ZEROPAGE          Offs=000006  Size=000004  Align=00001  Fill=0000
+    CODE              Offs=0000F8  Size=000056  Align=00001  Fill=0000
+    ZEROPAGE          Offs=000007  Size=000004  Align=00001  Fill=0000
 boulders.o:
-    CODE              Offs=00011F  Size=000065  Align=00001  Fill=0000
-    ZEROPAGE          Offs=00000A  Size=000021  Align=00001  Fill=0000
+    CODE              Offs=00014E  Size=0000B5  Align=00001  Fill=0000
+    ZEROPAGE          Offs=00000B  Size=000040  Align=00001  Fill=0000
 ppu_clear.o:
-    CODE              Offs=000184  Size=000024  Align=00001  Fill=0000
+    CODE              Offs=000203  Size=000024  Align=00001  Fill=0000
 input.o:
-    CODE              Offs=0001A8  Size=000001  Align=00001  Fill=0000
+    CODE              Offs=000227  Size=000016  Align=00001  Fill=0000
 random.o:
-    CODE              Offs=0001A9  Size=00001A  Align=00001  Fill=0000
-    ZEROPAGE          Offs=00002B  Size=000002  Align=00001  Fill=0000
+    CODE              Offs=00023D  Size=00001A  Align=00001  Fill=0000
+    ZEROPAGE          Offs=00004B  Size=000002  Align=00001  Fill=0000
 
 
 Segment list:
@@ -35,54 +35,66 @@ Name                   Start     End    Size  Align
 ----------------------------------------------------
 CHR                   000000  001FFF  002000  00001
 INESHDR               000000  000007  000008  00001
-ZEROPAGE              000010  00003C  00002D  00001
-CODE                  00C000  00C1C2  0001C3  00001
-RODATA                00C200  00C61F  000420  00001
+ZEROPAGE              000010  00005C  00004D  00001
+CODE                  00C000  00C256  000257  00001
+RODATA                00C300  00C71F  000420  00001
 VECTORS               00FFFA  00FFFD  000004  00001
 
 
 Exports list by name:
 ---------------------
-draw_bg                   00C0C2 RLA    draw_boulders             00C15E RLA    
-draw_player               00C0FD RLA    gen_number                00C1B0 RLA    
-handle_nmi                00C053 RLA    handle_reset              00C000 RLA    
-init_boulders             00C11F RLA    init_player               00C0EB RLA    
-main                      00C056 RLA    oam_used                  000011 RLZ    
-ppu_clear_oam             00C185 RLA    ppu_screen_on             00C195 RLA    
-read_input                00C1A8 RLA    set_seed                  00C1A9 RLA    
-update_boulders           00C13D RLA    update_player             00C0FC RLA    
-
+check_collisions          00C1BE RLA    cur_keys                  000012 RLZ    
+draw_bg                   00C0CF RLA    draw_boulders             00C198 RLA    
+draw_player               00C12C RLA    game_state                000014 RLZ    
+gen_number                00C244 RLA    handle_nmi                00C057 RLA    
+handle_reset              00C000 RLA    init_boulders             00C14E RLA    
+init_player               00C0F8 RLA    main                      00C05A RLA    
+oam_used                  000011 RLZ    player_x                  000017 RLZ    
+player_y                  000018 RLZ    ppu_clear_oam             00C204 RLA    
+ppu_screen_on             00C214 RLA    read_input                00C227 RLA    
+set_seed                  00C23D RLA    update_boulders           00C16F RLA    
+update_player             00C109 RLA    
 
 
 Exports list by value:
 ----------------------
-oam_used                  000011 RLZ    handle_reset              00C000 RLA    
-handle_nmi                00C053 RLA    main                      00C056 RLA    
-draw_bg                   00C0C2 RLA    init_player               00C0EB RLA    
-update_player             00C0FC RLA    draw_player               00C0FD RLA    
-init_boulders             00C11F RLA    update_boulders           00C13D RLA    
-draw_boulders             00C15E RLA    ppu_clear_oam             00C185 RLA    
-ppu_screen_on             00C195 RLA    read_input                00C1A8 RLA    
-set_seed                  00C1A9 RLA    gen_number                00C1B0 RLA    
-
+oam_used                  000011 RLZ    cur_keys                  000012 RLZ    
+game_state                000014 RLZ    player_x                  000017 RLZ    
+player_y                  000018 RLZ    handle_reset              00C000 RLA    
+handle_nmi                00C057 RLA    main                      00C05A RLA    
+draw_bg                   00C0CF RLA    init_player               00C0F8 RLA    
+update_player             00C109 RLA    draw_player               00C12C RLA    
+init_boulders             00C14E RLA    update_boulders           00C16F RLA    
+draw_boulders             00C198 RLA    check_collisions          00C1BE RLA    
+ppu_clear_oam             00C204 RLA    ppu_screen_on             00C214 RLA    
+read_input                00C227 RLA    set_seed                  00C23D RLA    
+gen_number                00C244 RLA    
 
 
 Imports list:
 -------------
+check_collisions (boulders.o):
+    main.o                    src/global.inc(19)
+cur_keys (main.o):
+    input.o                   src/global.inc(9)
+    player.o                  src/global.inc(9)
 draw_bg (background.o):
     main.o                    src/global.inc(12)
 draw_boulders (boulders.o):
-    main.o                    src/global.inc(18)
+    main.o                    src/global.inc(19)
 draw_player (player.o):
     main.o                    src/global.inc(15)
+game_state (main.o):
+    boulders.o                src/global.inc(9)
+    init.o                    src/global.inc(9)
 gen_number (random.o):
-    boulders.o                src/global.inc(27)
+    boulders.o                src/global.inc(28)
 handle_nmi (main.o):
     nrom.o                    src/nrom.asm(4)
 handle_reset (init.o):
     nrom.o                    src/nrom.asm(4)
 init_boulders (boulders.o):
-    main.o                    src/global.inc(18)
+    main.o                    src/global.inc(19)
 init_player (player.o):
     main.o                    src/global.inc(15)
 main (main.o):
@@ -90,17 +102,21 @@ main (main.o):
 oam_used (main.o):
     boulders.o                src/global.inc(9)
     player.o                  src/global.inc(9)
+player_x (player.o):
+    boulders.o                src/global.inc(16)
+player_y (player.o):
+    boulders.o                src/global.inc(16)
 ppu_clear_oam (ppu_clear.o):
-    main.o                    src/global.inc(21)
-    init.o                    src/global.inc(21)
+    main.o                    src/global.inc(22)
+    init.o                    src/global.inc(22)
 ppu_screen_on (ppu_clear.o):
-    main.o                    src/global.inc(21)
+    main.o                    src/global.inc(22)
 read_input (input.o):
-    main.o                    src/global.inc(24)
+    main.o                    src/global.inc(25)
 set_seed (random.o):
-    main.o                    src/global.inc(27)
+    main.o                    src/global.inc(28)
 update_boulders (boulders.o):
-    main.o                    src/global.inc(18)
+    main.o                    src/global.inc(19)
 update_player (player.o):
     main.o                    src/global.inc(15)
 

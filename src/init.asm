@@ -4,6 +4,7 @@
 
 .include "nes.inc"
 .include "global.inc"
+.include "defs.inc"
 
 .segment "CODE"
 .proc handle_reset
@@ -44,6 +45,9 @@ clearmem:
 	bne	@loop
 
 	jsr	vblankwait
+	
+	lda	#STATEPLAYING
+	sta	game_state
 
 	jmp	main
 .endproc

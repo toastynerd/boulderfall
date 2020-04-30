@@ -34,6 +34,31 @@ player_facing:	.res	1
 
 .proc update_player
 ;player logic code does not contain input handling
+checkleft:
+	lda	#KEY_LEFT
+	eor	cur_keys
+	bne	donecheckleft
+	lda	player_x
+	sec
+	sbc	player_speed
+	sta	player_x
+
+	lda	#FACINGLEFT
+	sta	player_facing
+donecheckleft:
+
+checkright:
+	lda	#KEY_RIGHT
+	eor	cur_keys
+	bne	donecheckright
+	lda	player_x
+	clc
+	adc	player_speed
+	sta	player_x
+
+	lda	#FACINGRIGHT
+	sta	player_facing
+donecheckright:
 	rts
 .endproc
 
