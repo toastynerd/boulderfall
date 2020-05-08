@@ -10,8 +10,6 @@
 .include "global.inc"
 .include "defs.inc"
 
-.segment "ZEROPAGE"
-
 .segment "CODE"
 
 .proc read_input
@@ -26,5 +24,21 @@
 	rol	cur_keys
 	dex
 	bne	@loop
+	rts
+.endproc
+
+.proc check_start
+	lda	#KEY_START
+	eor	cur_keys
+	bne	done_check_start
+	lda	#STATEPLAYING
+	sta	game_state
+
+	ldx	#<start_time
+	ldy	#>start_time
+	jsr	set_seed
+	sec
+
+done_check_start:
 	rts
 .endproc

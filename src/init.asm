@@ -46,9 +46,6 @@ clearmem:
 
 	jsr	vblankwait
 	
-	lda	#STATEPLAYING
-	sta	game_state
-
 	jmp	main
 .endproc
 

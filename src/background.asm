@@ -5,6 +5,7 @@
 
 .include "nes.inc"
 .include "global.inc"
+.include "defs.inc"
 
 .segment "ZEROPAGE"
 pointer_low:	.res	1
@@ -23,6 +24,8 @@ pointer_high:	.res	1
 	lda	#>background
 	sta	pointer_high
 
+title:
+
 	ldx	#$00
 	ldy	#$00
 @outsideloop:
@@ -36,7 +39,7 @@ pointer_high:	.res	1
 
 	inx
 	inc	pointer_high
-	cpx	#$04
+	cpx	#$08
 	bne	@outsideloop
 
 	rts
@@ -45,3 +48,4 @@ pointer_high:	.res	1
 .segment "RODATA"
 background:
 	.incbin "../bin/boulderfall.nam"
+	.incbin "../bin/title.nam"
